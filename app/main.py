@@ -1,8 +1,10 @@
 """Main FastAPI application for NYVO Insurance Advisor Chatbot"""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from contextlib import asynccontextmanager
 import logging
+import os
 
 from app.core import settings
 from app.models import init_db
@@ -75,7 +77,14 @@ app.include_router(router, prefix="/api/v1", tags=["Insurance Advisor"])
 
 @app.get("/")
 async def root():
-    """Root endpoint with API information"""
+    """Root endpoint - serve chat UI"""
+    static_path = os.path.join(os.path.dirname(__file__), "static", "index.html")
+    return FileResponse(static_path)
+
+
+@app.get("/api")
+async def api_info():
+    """API information endpoint"""
     return {
         "service": settings.app_name,
         "version": "1.0.0",
