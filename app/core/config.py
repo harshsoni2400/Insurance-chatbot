@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     
     # OpenAI
     openai_api_key: str
-    openai_model: str = "gpt-4-turbo-preview"
+    openai_model: str = "gpt-3.5-turbo"
     openai_embedding_model: str = "text-embedding-3-small"
     
     # Database
