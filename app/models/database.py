@@ -4,8 +4,17 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
 import enum
+import os
+from pathlib import Path
 
 from app.core import settings
+
+# Ensure data directory exists for SQLite
+if "sqlite" in settings.database_url:
+    db_path = settings.database_url.replace("sqlite:///", "")
+    db_dir = os.path.dirname(db_path)
+    if db_dir:
+        Path(db_dir).mkdir(parents=True, exist_ok=True)
 
 # Database setup
 engine = create_engine(
