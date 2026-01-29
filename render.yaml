@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: nyvo-chatbot
+    runtime: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python scripts/seed_data.py
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4-turbo-preview
+      - key: APP_ENV
+        value: production
+      - key: DEBUG
+        value: "false"
+      - key: CORS_ORIGINS
+        value: '["*"]'
+      - key: PYTHON_VERSION
+        value: "3.11"
